@@ -1,0 +1,43 @@
+<%layout ALayout %>
+<%inc
+#include "handlers.hpp"
+#include <vector>
+%>
+<%c++
+    const auto& posts = @@.get<std::vector<neko::handling::a::Post>>("posts");
+    const bool unavailable = @@.get<bool>("unavailable");
+    const auto escape = [](const std::string& text) {
+        return drogon::HttpViewData::htmlTranslate(text);
+    };
+%>
+<h1 class="mb-4 text-2xl font-semibold tracking-tight">Posts</h1>
+<%c++ if (unavailable) { %>
+<div class="alert" role="alert">Posts are temporarily unavailable.</div>
+<%c++ } else if (posts.empty()) { %>
+<p class="rounded-box border border-base-300 bg-base-100 p-4">No posts yet.</p>
+<%c++ } else { %>
+<ul class="list rounded-box border border-base-300 bg-base-100" role="list" aria-label="Posts">
+  <%c++ for (const auto& post : posts) { %>
+  <li class="list-row gap-0 px-4 py-3 sm:px-5">
+    <article class="list-col-grow min-w-0 wrap-anywhere">
+      <h2 class="text-base leading-snug font-semibold">
+        <%c++ if (post.link) { %>
+        <a class="link text-base-content decoration-primary underline-offset-3" href="{%escape(*post.link)%}">{%escape(post.title)%}</a>
+        <%c++ } else { %>
+        {%escape(post.title)%}
+        <%c++ } %>
+      </h2>
+      <%c++ if (!post.body.empty()) { %>
+      <p class="mt-1 text-sm leading-snug text-base-content/85">{%escape(post.body)%}</p>
+      <%c++ } %>
+      <p class="mt-1 text-xs text-base-content/70">
+        {%escape(post.submitter)%}
+        <%c++ if (!post.date.empty()) { %>
+        <span aria-hidden="true"> · </span><time datetime="{%post.date%}">{%post.date%}</time>
+        <%c++ } %>
+      </p>
+    </article>
+  </li>
+  <%c++ } %>
+</ul>
+<%c++ } %>

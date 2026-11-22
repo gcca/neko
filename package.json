@@ -1,0 +1,12 @@
+{
+  "name": "neko",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss --input src/handling/a/posts.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "daisyui": "5.8.2",
+    "tailwindcss": "4.3.5"
+  }
+}
