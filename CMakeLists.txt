@@ -6,6 +6,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Drogon CONFIG REQUIRED)
 find_package(SQLite3 REQUIRED)
+find_package(absl CONFIG QUIET)
+
+if(NOT absl_FOUND)
+    include(FetchContent)
+    if(POLICY CMP0135)
+        cmake_policy(SET CMP0135 NEW)
+    endif()
+    FetchContent_Declare(absl
+        URL https://codeload.github.com/abseil/abseil-cpp/tar.gz/refs/tags/20260817.0
+        URL_HASH SHA256=f7e05179df39c45434cad433f5783840bb3788ef322976f9138bc6b72b3a107d
+    )
+    FetchContent_MakeAvailable(absl)
+endif()
 
 if(TARGET SQLite3_lib)
     set(neko_sqlite SQLite3_lib)
@@ -45,7 +58,9 @@ target_compile_definitions(neko_a_handlers PRIVATE NEKO_POSTS_CSS_PATH="${posts_
 drogon_create_views(neko_a_handlers "${a_dir}/templates" "${CMAKE_CURRENT_BINARY_DIR}/views")
 
 add_executable(neko src/neko.cc src/neko/core/conf.cpp)
-target_link_libraries(neko PRIVATE neko_index_handlers neko_a_handlers)
+target_link_libraries(neko PRIVATE
+    neko_index_handlers neko_a_handlers absl::flags absl::flags_parse absl::flags_usage
+)
 add_dependencies(neko neko_posts_css)
 
 include(CTest)

@@ -15,7 +15,7 @@ void healthcheck(const drogon::HttpRequestPtr&, Respond&& respond) {
     respond(response);
 }
 
-void registerHandlers(drogon::HttpAppFramework& app) {
+void Register(drogon::HttpAppFramework& app) {
     app.registerHandler("/", &redirectToA, {drogon::Get});
     app.registerHandler("/healthcheck", &healthcheck, {drogon::Get});
 }

@@ -21,6 +21,6 @@ struct Post {
 };
 
 drogon::HttpResponsePtr postsResponse(const std::filesystem::path& dbPath);
-void registerHandlers(drogon::HttpAppFramework& app, std::filesystem::path dbPath);
+void Register(drogon::HttpAppFramework& app, std::filesystem::path dbPath);
 
 }  // namespace neko::handling::a

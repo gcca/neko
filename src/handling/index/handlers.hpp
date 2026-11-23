@@ -15,6 +15,6 @@ using Respond = std::function<void(const drogon::HttpResponsePtr&)>;
 
 void redirectToA(const drogon::HttpRequestPtr& request, Respond&& respond);
 void healthcheck(const drogon::HttpRequestPtr& request, Respond&& respond);
-void registerHandlers(drogon::HttpAppFramework& app);
+void Register(drogon::HttpAppFramework& app);
 
 }  // namespace neko::handling::index

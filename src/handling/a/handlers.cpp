@@ -112,7 +112,7 @@ drogon::HttpResponsePtr postsResponse(const std::filesystem::path& dbPath) {
     return response;
 }
 
-void registerHandlers(drogon::HttpAppFramework& app, std::filesystem::path dbPath) {
+void Register(drogon::HttpAppFramework& app, std::filesystem::path dbPath) {
     app.registerHandler(
         "/a",
         [dbPath = std::move(dbPath)](const drogon::HttpRequestPtr&, Respond&& respond) {
