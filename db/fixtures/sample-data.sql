@@ -182,7 +182,7 @@ WITH samples (sequence, username, title, body, link) AS (
          'The workspace reference shows how members share a lockfile and inherit common package settings and dependencies.',
          'https://doc.rust-lang.org/cargo/reference/workspaces.html')
 )
-INSERT INTO a_post (title, body, link, created_by, created_at)
+INSERT INTO story (title, body, link, created_by, created_at)
 SELECT samples.title,
        samples.body,
        samples.link,

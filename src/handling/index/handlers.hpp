@@ -1,20 +1,20 @@
 #pragma once
 
-#include <drogon/HttpRequest.h>
-#include <drogon/HttpResponse.h>
+#include <drogon/HttpController.h>
 
-#include <functional>
-
-namespace drogon {
-class HttpAppFramework;
-}
+#include "../../handling.hpp"
 
 namespace neko::handling::index {
 
-using Respond = std::function<void(const drogon::HttpResponsePtr&)>;
+class Index : public drogon::HttpController<Index> {
+public:
+    METHOD_LIST_BEGIN
+    ADD_METHOD_TO(Index::RedirectToStories, "/", drogon::Get);
+    ADD_METHOD_TO(Index::Healthcheck, "/healthcheck", drogon::Get);
+    METHOD_LIST_END
 
-void redirectToA(const drogon::HttpRequestPtr& request, Respond&& respond);
-void healthcheck(const drogon::HttpRequestPtr& request, Respond&& respond);
-void Register(drogon::HttpAppFramework& app);
+    void RedirectToStories(const drogon::HttpRequestPtr& request, Respond&& respond) const;
+    void Healthcheck(const drogon::HttpRequestPtr& request, Respond&& respond) const;
+};
 
 }  // namespace neko::handling::index

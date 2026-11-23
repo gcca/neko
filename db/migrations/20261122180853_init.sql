@@ -5,7 +5,7 @@ CREATE TABLE auth_user (
     password TEXT    NOT NULL
 );
 
-CREATE TABLE a_post (
+CREATE TABLE story (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     title       TEXT    NOT NULL,
     body        TEXT    NOT NULL DEFAULT '',
@@ -15,6 +15,6 @@ CREATE TABLE a_post (
 );
 
 -- migrate:down
-DROP TABLE a_post;
+DROP TABLE story;
 DROP TABLE auth_user;
 

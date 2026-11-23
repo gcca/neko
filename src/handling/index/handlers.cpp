@@ -1,23 +1,16 @@
 #include "handlers.hpp"
 
-#include <drogon/HttpAppFramework.h>
-
 namespace neko::handling::index {
 
-void redirectToA(const drogon::HttpRequestPtr&, Respond&& respond) {
-    respond(drogon::HttpResponse::newRedirectionResponse("/a"));
+void Index::RedirectToStories(const drogon::HttpRequestPtr&, Respond&& respond) const {
+    respond(drogon::HttpResponse::newRedirectionResponse("/stories/list"));
 }
 
-void healthcheck(const drogon::HttpRequestPtr&, Respond&& respond) {
+void Index::Healthcheck(const drogon::HttpRequestPtr&, Respond&& respond) const {
     auto response = drogon::HttpResponse::newHttpResponse(
         drogon::k200OK, drogon::CT_TEXT_PLAIN);
     response->setBody(u8"😎");
     respond(response);
-}
-
-void Register(drogon::HttpAppFramework& app) {
-    app.registerHandler("/", &redirectToA, {drogon::Get});
-    app.registerHandler("/healthcheck", &healthcheck, {drogon::Get});
 }
 
 }  // namespace neko::handling::index

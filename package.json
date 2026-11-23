@@ -2,7 +2,7 @@
   "name": "neko",
   "private": true,
   "scripts": {
-    "build:css": "tailwindcss --input src/handling/a/posts.css --minify"
+    "build:css": "tailwindcss --input src/handling/stories/stories.css --minify"
   },
   "devDependencies": {
     "@tailwindcss/cli": "4.3.5",

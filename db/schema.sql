@@ -4,7 +4,7 @@ CREATE TABLE auth_user (
     username TEXT    NOT NULL UNIQUE,
     password TEXT    NOT NULL
 );
-CREATE TABLE a_post (
+CREATE TABLE story (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     title       TEXT    NOT NULL,
     body        TEXT    NOT NULL DEFAULT '',

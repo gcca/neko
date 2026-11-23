@@ -1,0 +1,48 @@
+<%layout StoriesLayout %>
+<%inc
+#include <json/json.h>
+%>
+<%c++
+    const auto& stories = @@.get<Json::Value>("stories");
+    const bool unavailable = @@.get<bool>("unavailable");
+    const auto escape = [](const std::string& text) {
+        return drogon::HttpViewData::htmlTranslate(text);
+    };
+%>
+<h1 class="mb-4 text-2xl font-semibold tracking-tight">Stories</h1>
+<%c++ if (unavailable) { %>
+<div class="alert" role="alert">Stories are temporarily unavailable.</div>
+<%c++ } else if (stories.empty()) { %>
+<p class="rounded-box border border-base-300 bg-base-100 p-4">No stories yet.</p>
+<%c++ } else { %>
+<ul class="list rounded-box border border-base-300 bg-base-100" role="list" aria-label="Stories">
+  <%c++
+    for (const auto& story : stories) {
+        const auto title = story["title"].asString();
+        const auto body = story["body"].asString();
+        const auto date = story["date"].asString();
+        const auto& link = story["link"];
+  %>
+  <li class="list-row gap-0 px-4 py-3 sm:px-5">
+    <article class="list-col-grow min-w-0 wrap-anywhere">
+      <h2 class="text-base leading-snug font-semibold">
+        <%c++ if (!link.isNull()) { %>
+        <a class="link text-base-content decoration-primary underline-offset-3" href="{%escape(link.asString())%}">{%escape(title)%}</a>
+        <%c++ } else { %>
+        {%escape(title)%}
+        <%c++ } %>
+      </h2>
+      <%c++ if (!body.empty()) { %>
+      <p class="mt-1 text-sm leading-snug text-base-content/85">{%escape(body)%}</p>
+      <%c++ } %>
+      <p class="mt-1 text-xs text-base-content/70">
+        {%escape(story["submitter"].asString())%}
+        <%c++ if (!date.empty()) { %>
+        <span aria-hidden="true"> · </span><time datetime="{%date%}">{%date%}</time>
+        <%c++ } %>
+      </p>
+    </article>
+  </li>
+  <%c++ } %>
+</ul>
+<%c++ } %>

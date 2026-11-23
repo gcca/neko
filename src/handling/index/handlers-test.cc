@@ -5,15 +5,16 @@
 namespace neko::handling::index {
 namespace {
 
-TEST(Neko, IndexRedirectsToA) {
+TEST(Neko, IndexRedirectsToStories) {
     testing::MockFunction<Respond> respond;
     EXPECT_CALL(respond, Call(testing::NotNull()))
         .WillOnce([](const drogon::HttpResponsePtr& response) {
             EXPECT_EQ(response->getStatusCode(), drogon::k302Found);
-            EXPECT_EQ(response->getHeader("location"), "/a");
+            EXPECT_EQ(response->getHeader("location"), "/stories/list");
         });
 
-    redirectToA(drogon::HttpRequest::newHttpRequest(), respond.AsStdFunction());
+    Index index;
+    index.RedirectToStories(drogon::HttpRequest::newHttpRequest(), respond.AsStdFunction());
 }
 
 TEST(Neko, HealthcheckReturnsSunglassesEmoji) {
@@ -25,7 +26,8 @@ TEST(Neko, HealthcheckReturnsSunglassesEmoji) {
             EXPECT_EQ(response->getBody(), u8"😎");
         });
 
-    healthcheck(drogon::HttpRequest::newHttpRequest(), respond.AsStdFunction());
+    Index index;
+    index.Healthcheck(drogon::HttpRequest::newHttpRequest(), respond.AsStdFunction());
 }
 
 }  // namespace
